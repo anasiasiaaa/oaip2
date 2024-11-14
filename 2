@@ -1,0 +1,55 @@
+#include <iostream>
+#include <string>     //подключаем библиотеку для работы со строками
+#include <clocale> 
+using namespace std;  //используем пространство имен std для удобства
+
+//функция для получения индекса ноты
+int getNoteIndex(const string& note) {
+    if (note == "до") return 0; 
+    if (note == "ре") return 1; 
+    if (note == "ми") return 2; 
+    if (note == "фа") return 3; 
+    if (note == "соль") return 4; 
+    if (note == "ля") return 5;   
+    if (note == "си") return 6;   
+    return -1; 
+}
+
+//функция для определения названия интервала
+string determineInterval(int interval) {
+    switch (interval) {
+    case 0: return "Прима";     
+    case 1: return "Секунда";   
+    case 2: return "Терция";    
+    case 3: return "Кварта";    
+    case 4: return "Квинта";    
+    case 5: return "Секста";     
+    case 6: return "Септима";    
+    default: return "Неизвестный интервал"; //сообщение об ошибке
+    }
+}
+
+int main() {
+    setlocale(LC_ALL, "Russian"); 
+    string note1, note2;          //объявляем переменные для хранения нот
+
+    cout << "Введите первую ноту (до, ре, ми, фа, соль, ля, си): "; //ввод и считывание первой ноты
+    cin >> note1; 
+
+    cout << "Введите вторую ноту (до, ре, ми, фа, соль, ля, си): "; //ввод и считывание второй ноты
+    cin >> note2; 
+
+    int index1 = getNoteIndex(note1); //получаем индекс первой ноты
+    int index2 = getNoteIndex(note2); //получаем индекс второй ноты
+
+    if (index1 == -1 || index2 == -1) { //проверяем, есть ли неверные ноты
+        cout << "Неверные ноты!" << endl; //выводим сообщение об ошибке
+        return 1; 
+    }
+
+    int interval = (index2 - index1 + 7) % 7; //вычисляем интервал между нотами с учетом круговой природы
+    //вывод интервала
+    cout << "Интервал между " << note1 << " и " << note2 << ": " << determineInterval(interval) << std::endl;
+
+    return 0; 
+}
