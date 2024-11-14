@@ -1,0 +1,40 @@
+#include <iostream>
+#include <cmath>
+#include <clocale>
+using namespace std;
+bool isInShadedArea(double x, double y) {
+    //центры окружностей
+    double x1 = 0.0, y1 = 3.0; //верхняя окружность
+    double x2 = 1.0, y2 = 0.0; //нижняя окружность
+    //радиус окружностей
+    double radius = 2.0;
+
+    //проверка принадлежности к верхней окружности (включая границу)
+    bool inUpperCircle = (x - x1) * (x - x1) + (y - y1) * (y - y1) <= (radius) * (radius);
+    //проверка принадлежности к нижней окружности (включая границу)
+    bool inLowerCircle = (x - x2) * (x - x2) + (y - y2) * (y - y2) <= (radius) * (radius);
+    //проверка, что точка ниже или на графике y = e^x
+    bool belowOrOnExponential = y <= exp(x);
+    //проверка, что точка выше или на графике y = e^x
+    bool aboveOrOnExponential = y >= exp(x);
+
+    /*условие: либо точка в верхней окружности и ниже или на экспоненте,
+    либо точка в нижней окружности и выше или на экспоненте*/
+    return (inUpperCircle && belowOrOnExponential) || (inLowerCircle && aboveOrOnExponential);
+}
+
+int main() {
+    setlocale(LC_ALL, "Russian");
+    double x, y;
+    cout << "Введите координаты точки (x и y): ";
+    cin >> x >> y;
+
+    if (isInShadedArea(x, y)) {
+        cout << "Точка находится в заштрихованной области." << endl;
+    }
+    else {
+        cout << "Точка не находится в заштрихованной области." << endl;
+    }
+
+    return 0;
+}
